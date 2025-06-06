@@ -25,53 +25,13 @@
             </tr>
           </thead>
           <tbody class="table-group-divider">
-            <tr>
-              <th scope="row">12/20/2021</th>
-              <td>Desc</td>
-              <td>0000</td>
-              <td>Jean paul</td>
-              <td>3400,00€</td>
-              <td>4800,00€</td>
-              <td>
-                <div class="row">
-                  <div class="col">
-                    <BButton iconLeft="" variant="primary" class="w-100" @click="$router.push('/facture/patch')">Modifier
-                    </BButton>
-                  </div>
-                  <div class="col">
-                    <BButton iconLeft="" variant="danger" class="w-100" @click="$router.push('/facture/delete')">Supprimer
-                    </BButton>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">12/20/2021</th>
-              <td>Desc</td>
-              <td>0000</td>
-              <td>Jean paul</td>
-              <td>3400,00€</td>
-              <td>4800,00€</td>
-              <td>
-                <div class="row">
-                  <div class="col">
-                    <BButton iconLeft="" variant="primary" class="w-100" @click="$router.push('/facture/patch')">Modifier
-                    </BButton>
-                  </div>
-                  <div class="col">
-                    <BButton iconLeft="" variant="danger" class="w-100" @click="$router.push('/facture/delete')">Supprimer
-                    </BButton>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">12/20/2021</th>
-              <td>Desc</td>
-              <td>0000</td>
-              <td>Jean paul</td>
-              <td>3400,00€</td>
-              <td>4800,00€</td>
+            <tr v-for="facture in facturesList" :key="facture.id">
+              <th scope="row">{{ facture.date }}</th>
+              <td>{{ facture.description }}</td>
+              <td>{{ facture.numero }}</td>
+              <td>{{ facture.client }}</td>
+              <td>{{ facture.prixht }}€</td>
+              <td>{{ facture.prixttc }}€</td>
               <td>
                 <div class="row">
                   <div class="col">
@@ -91,3 +51,13 @@
     </div>
   </div>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+
+// import des données seed
+import factures from '@/seeds/factures.js'
+
+const facturesList = ref(factures)
+
+</script>
