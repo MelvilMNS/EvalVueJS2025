@@ -11,13 +11,18 @@
           <i class="fa-solid fa-plus me-2"></i>Ajouter un nouveau client
         </BButton>
       </div>
-      <div class="table-responsive">
+      <div class="table-responsive mt-3">
         <table class="table">
           <thead>
             <tr>
               <th scope="col">Nom</th>
               <th scope="col">Entreprise</th>
               <th scope="col">Date</th>
+              <th scope="col">Fonction</th>
+              <th scope="col">Téléphone</th>
+              <th scope="col">Email</th>
+              <th scope="col">Ville</th>
+              <th scope="col">Pays</th>
               <th scope="col" class="text-center">Actions</th>
             </tr>
           </thead>
@@ -26,9 +31,14 @@
               <th scope="row">{{ client.nom }}</th>
               <td>{{ client.entreprise }}</td>
               <td>{{ client.date }}</td>
+              <td>{{ client.fonction }}</td>
+              <td>{{ client.telephone }}</td>
+              <td>{{ client.email }}</td>
+              <td>{{ client.ville }}</td>
+              <td>{{ client.pays }}</td>
               <td>
                 <div class="row">
-                  <div class="col">
+                  <div class="col mb-1">
                     <BButton iconLeft="" variant="primary" class="w-100" @click="detaillerClient(client.id)">Modifier
                     </BButton>
                   </div>
@@ -65,9 +75,7 @@ const detaillerClient = (id) => {
 }
 
 const supprimerClient = (id) => {
-  clientsList.value = clientsList.value.filter(facture => facture.id !== id)
+  clientsList.value = clientsList.value.filter(client => client.id !== id)
   saveClients(clientsList.value)
 }
-
-
 </script>

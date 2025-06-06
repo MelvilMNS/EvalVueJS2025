@@ -2,7 +2,7 @@
   <div class="container mt-4">
     <h2>Créer un nouveau client</h2>
 
-    <form @submit.prevent="creerClient">
+    <form class="mb-3" @submit.prevent="creerClient">
       <div class="mb-3">
         <label class="form-label">Date</label>
         <input type="date" v-model="client.date" class="form-control" />
@@ -16,6 +16,46 @@
       <div class="mb-3">
         <label class="form-label">Entreprise</label>
         <input type="text" v-model="client.entreprise" class="form-control" />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Fonction</label>
+        <input type="text" v-model="client.fonction" class="form-control" />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Téléphone</label>
+        <input type="text" v-model="client.telephone" class="form-control" />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" v-model="client.email" class="form-control" />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Adresse 1</label>
+        <input type="text" v-model="client.adresse1" class="form-control" />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Adresse 2</label>
+        <input type="text" v-model="client.adresse2" class="form-control" />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Code Postal</label>
+        <input type="text" v-model="client.codePostal" class="form-control" />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Ville</label>
+        <input type="text" v-model="client.ville" class="form-control" />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Pays</label>
+        <input type="text" v-model="client.pays" class="form-control" />
       </div>
 
       <button type="submit" class="btn btn-primary">Créer</button>
@@ -35,7 +75,15 @@ const client = ref({
   id: '',
   nom: '',
   entreprise: '',
-  date: ''
+  date: '',
+  fonction: '',
+  telephone: '',
+  email: '',
+  adresse1: '',
+  adresse2: '',
+  codePostal: '',
+  ville: '',
+  pays: ''
 })
 
 const creerClient = () => {

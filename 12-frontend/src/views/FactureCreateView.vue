@@ -3,7 +3,7 @@
   <div class="container mt-4">
     <h2>Créer une nouvelle facture</h2>
 
-    <form @submit.prevent="creerFacture">
+    <form class="mb-3" @submit.prevent="creerFacture">
       <div class="mb-3">
         <label class="form-label">Date</label>
         <input type="date" v-model="facture.date" class="form-control" />
