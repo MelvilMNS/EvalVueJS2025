@@ -71,4 +71,9 @@ const detaillerFacture = (id) => {
   })
 }
 
+
+const supprimerFacture = (id) => {
+  facturesList.value = facturesList.value.filter(facture => facture.id !== id)
+}
+
 </script>

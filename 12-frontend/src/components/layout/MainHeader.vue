@@ -2,7 +2,7 @@
   <header>
     <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#"><i class="fa-solid fa-home me-2"></i>Gérer vos factures et vos clients</a>
+        <div class="navbar-brand" @click="$router.push('/')"><i class="fa-solid fa-home me-2"></i>Gérer vos factures et vos clients</div>
         <button
           class="navbar-toggler"
           type="button"
