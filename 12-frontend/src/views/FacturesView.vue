@@ -28,7 +28,7 @@
             <tr v-for="facture in facturesList" :key="facture.id">
               <th scope="row">{{ facture.date }}</th>
               <td>{{ facture.description }}</td>
-              <td>{{ facture.numero }}</td>
+              <td>{{ facture.id }}</td>
               <td>{{ facture.client }}</td>
               <td>{{ facture.prixht }}€</td>
               <td>{{ facture.prixttc }}€</td>
