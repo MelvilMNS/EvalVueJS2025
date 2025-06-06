@@ -1,112 +1,93 @@
 <template>
-    <h1>Les factures</h1>
-
-    <section style="min-height: 540px">
-      <div v-if="loading" class="loading my-3">loading...</div>
-
-      <ul v-else class="list-group mb-0">
-        <li
-          class="list-group-item d-flex justify-content-between align-items-center"
-          v-for="people in peoples"
-          :key="people.uid"
-        >
-          <span>{{ people.name }}</span>
-          <RouterLink class="btn btn-sm btn-primary" :to="`/character/${people.uid}`"
-            >Show details</RouterLink
-          >
-        </li>
-      </ul>
-    </section>
-
-    <nav aria-label="Navigation" class="my-4 d-flex justify-content-between align-items-center">
-      <ul class="pagination">
-        <!-- previous link -->
-        <li class="page-item" v-if="page - 1 > 0">
-          <router-link class="page-link" :to="`/characters/${page - 1}`">Page précédente</router-link>
-        </li>
-        <li v-else class="page-item disabled">
-          <a class="page-link">Page précédente</a>
-        </li>
-        <!-- next link -->
-        <li v-if="page + 1 <= totalPages" class="page-item">
-          <router-link class="page-link" :to="`/characters/${page + 1}`">Page suivante</router-link>
-        </li>
-        <li v-else class="page-item disabled">
-          <a class="page-link">Page suivante</a>
-        </li>
-      </ul>
-
-      <div>page {{ page }} sur {{ totalPages }}</div>
-    </nav>
+  <div class="container-fluid">
+    <div class="row mt-2">
+      <div class="col">
+        <h1>
+          Liste des factures
+        </h1>
+      </div>
+      <div class="col d-flex justify-content-end align-items-center">
+        <BButton iconLeft="" variant="success" class="" @click="$router.push('/facture/create')">
+          <i class="fa-solid fa-plus me-2"></i>Ajouter une nouvelle facture
+        </BButton>
+      </div>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Description</th>
+              <th scope="col">Numéro</th>
+              <th scope="col">Nom du client</th>
+              <th scope="col">Prix HT</th>
+              <th scope="col">Prix TTC</th>
+              <th scope="col" class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            <tr>
+              <th scope="row">12/20/2021</th>
+              <td>Desc</td>
+              <td>0000</td>
+              <td>Jean paul</td>
+              <td>3400,00€</td>
+              <td>4800,00€</td>
+              <td>
+                <div class="row">
+                  <div class="col">
+                    <BButton iconLeft="" variant="primary" class="w-100" @click="$router.push('/facture/patch')">Modifier
+                    </BButton>
+                  </div>
+                  <div class="col">
+                    <BButton iconLeft="" variant="danger" class="w-100" @click="$router.push('/facture/delete')">Supprimer
+                    </BButton>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">12/20/2021</th>
+              <td>Desc</td>
+              <td>0000</td>
+              <td>Jean paul</td>
+              <td>3400,00€</td>
+              <td>4800,00€</td>
+              <td>
+                <div class="row">
+                  <div class="col">
+                    <BButton iconLeft="" variant="primary" class="w-100" @click="$router.push('/facture/patch')">Modifier
+                    </BButton>
+                  </div>
+                  <div class="col">
+                    <BButton iconLeft="" variant="danger" class="w-100" @click="$router.push('/facture/delete')">Supprimer
+                    </BButton>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">12/20/2021</th>
+              <td>Desc</td>
+              <td>0000</td>
+              <td>Jean paul</td>
+              <td>3400,00€</td>
+              <td>4800,00€</td>
+              <td>
+                <div class="row">
+                  <div class="col">
+                    <BButton iconLeft="" variant="primary" class="w-100" @click="$router.push('/facture/patch')">Modifier
+                    </BButton>
+                  </div>
+                  <div class="col">
+                    <BButton iconLeft="" variant="danger" class="w-100" @click="$router.push('/facture/delete')">Supprimer
+                    </BButton>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </template>
-
-<script>
-import { RouterLink } from 'vue-router'
-export default {
-  components: {
-    RouterLink
-  },
-  data() {
-    return {
-      loading: false,
-      limit: 10,
-      totalPages: 1,
-      peoples: [
-        // {
-        //   uid: 1,
-        //   name: 'Tatooine'
-        // },
-        // {
-        //   uid: 2,
-        //   name: 'Alderaan'
-        // },
-        // {
-        //   uid: 3,
-        //   name: 'Yavin'
-        // }
-      ]
-    }
-  },
-  computed: {
-    page() {
-      // définit une valeur par défaut si le paramètre est manquant, sinon retourne le paramètre page de la route (le signe + converti une String qui contient un chiffre en Number)
-      return +this.$route.params.page || 1
-    }
-  },
-  mounted() {
-    // appel de la méthode qui charge les données au premier chargement du composant
-    this.getList(this.page, this.limit)
-  },
-  methods: {
-    async getList(page, limit) {
-      // active le chargement
-      this.loading = true
-
-      // on appelle l'api de StarWars SWAPi, les paramètre de la route déterminent les informations reçues (voir la documentation de l'API ici https://swapi.tech/documentation)
-      const response = await this.$http.get(
-        `https://www.swapi.tech/api/people?page=${page}&limit=${limit}`
-      )
-
-      // on reçoit les données
-      console.log(response.data)
-
-      // on transfère les données qui nous intéressent dans la data de la vue
-      this.peoples = [...response.data.results]
-
-      // ici on calcule le nombre total des page en fonction du nombre de résultat reçu et du nombre de résultat par page
-      this.totalPages = Math.floor(response.data.total_records / limit) + 1
-
-      // désactive le chargement
-      this.loading = false
-    }
-  },
-  // on surveille (watch) le changement de route afin de recharger les données en fonction de la page courante (this.page)
-  // la page courante vient d'une computed properties (voir plus haut les computed) basée sur le paramètre de la route this.$route.params.page
-  watch: {
-    $route() {
-      // à chaque changement de route, on recharge les données avec le nouveau paramètre this.page
-      this.getList(this.page, this.limit)
-    }
-  }
-}
-</script>
