@@ -1,10 +1,8 @@
-<!-- src/views/FactureEdit.vue -->
 <template>
   <div class="container mt-4">
     <h2>Modifier la facture n°{{ factureId }}</h2>
 
     <form class="mb-3" @submit.prevent="sauvegarderFacture">
-      <!-- Champs de base -->
 
       <div class="mb-3">
         <label class="form-label">Date</label>
@@ -31,8 +29,6 @@
         <input type="number" v-model.number="facture.prixttc" class="form-control" />
       </div>
 
-      <!-- Champs ajoutés -->
-
       <div class="mb-3">
         <label class="form-label">Remise (€)</label>
         <input type="number" v-model.number="facture.remise" class="form-control" />
@@ -47,8 +43,6 @@
         <label class="form-label">TVA (€)</label>
         <input type="number" v-model.number="facture.tva" class="form-control" />
       </div>
-
-      <!-- Prestations -->
 
       <h4>Prestations</h4>
       <div v-for="(prestation, index) in facture.prestations" :key="index" class="mb-3 border p-3 rounded">
@@ -82,7 +76,6 @@
         Ajouter une prestation
       </button>
 
-      <!-- Submit -->
       <button type="submit" class="btn btn-primary">Sauvegarder</button>
       <button type="button" class="btn btn-secondary ms-2" @click="annuler">Annuler</button>
     </form>
@@ -155,7 +148,6 @@ const sauvegarderFacture = () => {
   const factures = getFactures()
   const index = factures.findIndex(f => f.id == factureId)
   if (index !== -1) {
-    // Recalculer montantTotal pour chaque prestation
     facture.value.prestations = facture.value.prestations.map(prestation => ({
       ...prestation,
       montantTotal: prestation.quantite * prestation.montantUnitaire
