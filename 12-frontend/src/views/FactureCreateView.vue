@@ -38,7 +38,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import factures from '@/seeds/factures.js'
+import { getFactures, saveFactures } from '@/services/factures-backend-service.js'
 
 const $router = useRouter()
 
@@ -52,9 +52,13 @@ const facture = ref({
 })
 
 const creerFacture = () => {
-  facture.value.id = factures.length;
+  const factures = getFactures()
+
+  facture.value.id = factures.length ? Math.max(...factures.map(f => Number(f.id))) + 1 : 1
 
   factures.push({ ...facture.value })
+
+  saveFactures(factures)
 
   $router.push('/')
 }

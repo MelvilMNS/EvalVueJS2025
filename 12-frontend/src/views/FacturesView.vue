@@ -55,12 +55,11 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { getFactures, saveFactures } from '@/services/factures-backend-service.js'
+
 const $router = useRouter()
 
-// import des données seed
-import factures from '@/seeds/factures.js'
-
-const facturesList = ref(factures)
+const facturesList = ref(getFactures())
 
 const detaillerFacture = (id) => {
   $router.push({
@@ -71,9 +70,10 @@ const detaillerFacture = (id) => {
   })
 }
 
-
 const supprimerFacture = (id) => {
   facturesList.value = facturesList.value.filter(facture => facture.id !== id)
+  saveFactures(facturesList.value)
 }
+
 
 </script>

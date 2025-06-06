@@ -38,7 +38,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import factures from '@/seeds/factures.js'
+import { getFactures, saveFactures } from '@/services/factures-backend-service.js'
 
 const $route = useRoute()
 const $router = useRouter()
@@ -55,6 +55,7 @@ const facture = ref({
 })
 
 onMounted(() => {
+  const factures = getFactures()
   const f = factures.find(f => f.id == factureId)
   if (f) {
     facture.value = {
@@ -69,9 +70,11 @@ onMounted(() => {
 })
 
 const sauvegarderFacture = () => {
+  const factures = getFactures()
   const index = factures.findIndex(f => f.id == factureId)
   if (index !== -1) {
     factures[index] = { ...facture.value }
+    saveFactures(factures)
     alert('Facture sauvegardée !')
     $router.push('/facture')
   }
