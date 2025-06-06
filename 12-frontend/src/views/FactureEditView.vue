@@ -3,7 +3,7 @@
   <div class="container mt-4">
     <h2>Modifier la facture n°{{ factureId }}</h2>
 
-    <form @submit.prevent="sauvegarderFacture">
+    <form class="mb-3" @submit.prevent="sauvegarderFacture">
       <div class="mb-3">
         <label class="form-label">Date</label>
         <input type="date" v-model="facture.date" class="form-control" />
