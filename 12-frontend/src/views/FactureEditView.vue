@@ -4,6 +4,8 @@
     <h2>Modifier la facture n°{{ factureId }}</h2>
 
     <form class="mb-3" @submit.prevent="sauvegarderFacture">
+      <!-- Champs de base -->
+
       <div class="mb-3">
         <label class="form-label">Date</label>
         <input type="date" v-model="facture.date" class="form-control" />
@@ -21,14 +23,66 @@
 
       <div class="mb-3">
         <label class="form-label">Prix HT</label>
-        <input type="number" v-model="facture.prixht" class="form-control" />
+        <input type="number" v-model.number="facture.prixht" class="form-control" />
       </div>
 
       <div class="mb-3">
         <label class="form-label">Prix TTC</label>
-        <input type="number" v-model="facture.prixttc" class="form-control" />
+        <input type="number" v-model.number="facture.prixttc" class="form-control" />
       </div>
 
+      <!-- Champs ajoutés -->
+
+      <div class="mb-3">
+        <label class="form-label">Remise (€)</label>
+        <input type="number" v-model.number="facture.remise" class="form-control" />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Déjà payé (€)</label>
+        <input type="number" v-model.number="facture.dejaPaye" class="form-control" />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">TVA (€)</label>
+        <input type="number" v-model.number="facture.tva" class="form-control" />
+      </div>
+
+      <!-- Prestations -->
+
+      <h4>Prestations</h4>
+      <div v-for="(prestation, index) in facture.prestations" :key="index" class="mb-3 border p-3 rounded">
+        <div class="mb-2">
+          <label class="form-label">Description</label>
+          <input type="text" v-model="prestation.description" class="form-control" />
+        </div>
+        <div class="mb-2">
+          <label class="form-label">Quantité</label>
+          <input type="number" v-model.number="prestation.quantite" class="form-control" />
+        </div>
+        <div class="mb-2">
+          <label class="form-label">Montant unitaire (€)</label>
+          <input type="number" v-model.number="prestation.montantUnitaire" class="form-control" />
+        </div>
+        <div class="mb-2">
+          <label class="form-label">Montant total (€)</label>
+          <input
+            type="number"
+            :value="prestation.quantite * prestation.montantUnitaire"
+            class="form-control"
+            readonly
+          />
+        </div>
+        <button type="button" class="btn btn-danger" @click="supprimerPrestation(index)">
+          Supprimer cette prestation
+        </button>
+      </div>
+
+      <button type="button" class="btn btn-secondary mb-3" @click="ajouterPrestation">
+        Ajouter une prestation
+      </button>
+
+      <!-- Submit -->
       <button type="submit" class="btn btn-primary">Sauvegarder</button>
       <button type="button" class="btn btn-secondary ms-2" @click="annuler">Annuler</button>
     </form>
@@ -51,7 +105,11 @@ const facture = ref({
   description: '',
   client: '',
   prixht: 0,
-  prixttc: 0
+  prixttc: 0,
+  remise: 0,
+  dejaPaye: 0,
+  tva: 0,
+  prestations: []
 })
 
 onMounted(() => {
@@ -62,17 +120,47 @@ onMounted(() => {
       ...f,
       date: f.date ? new Date(f.date).toISOString().split('T')[0] : '',
       prixht: Number(f.prixht) || 0,
-      prixttc: Number(f.prixttc) || 0
+      prixttc: Number(f.prixttc) || 0,
+      remise: Number(f.remise) || 0,
+      dejaPaye: Number(f.dejaPaye) || 0,
+      tva: Number(f.tva) || 0,
+      prestations: Array.isArray(f.prestations)
+        ? f.prestations.map(p => ({
+            description: p.description || '',
+            quantite: Number(p.quantite) || 1,
+            montantUnitaire: Number(p.montantUnitaire) || 0,
+            montantTotal: Number(p.montantTotal) || (Number(p.quantite) || 1) * (Number(p.montantUnitaire) || 0)
+          }))
+        : []
     }
   } else {
     $router.push('/facture')
   }
 })
 
+const ajouterPrestation = () => {
+  facture.value.prestations.push({
+    description: '',
+    quantite: 1,
+    montantUnitaire: 0,
+    montantTotal: 0
+  })
+}
+
+const supprimerPrestation = (index) => {
+  facture.value.prestations.splice(index, 1)
+}
+
 const sauvegarderFacture = () => {
   const factures = getFactures()
   const index = factures.findIndex(f => f.id == factureId)
   if (index !== -1) {
+    // Recalculer montantTotal pour chaque prestation
+    facture.value.prestations = facture.value.prestations.map(prestation => ({
+      ...prestation,
+      montantTotal: prestation.quantite * prestation.montantUnitaire
+    }))
+
     factures[index] = { ...facture.value }
     saveFactures(factures)
     $router.push('/')
