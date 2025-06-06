@@ -35,11 +35,11 @@
               <td>
                 <div class="row">
                   <div class="col">
-                    <BButton iconLeft="" variant="primary" class="w-100" @click="$router.push('/facture/patch')">Modifier
+                    <BButton iconLeft="" variant="primary" class="w-100" @click="detaillerFacture(facture.id)">Modifier
                     </BButton>
                   </div>
                   <div class="col">
-                    <BButton iconLeft="" variant="danger" class="w-100" @click="$router.push('/facture/delete')">Supprimer
+                    <BButton iconLeft="" variant="danger" class="w-100" @click="supprimerFacture(facture.id)">Supprimer
                     </BButton>
                   </div>
                 </div>
@@ -54,10 +54,21 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+const $router = useRouter()
 
 // import des données seed
 import factures from '@/seeds/factures.js'
 
 const facturesList = ref(factures)
+
+const detaillerFacture = (id) => {
+  $router.push({
+    name: 'facture',
+    params: {
+      id
+    },
+  })
+}
 
 </script>
