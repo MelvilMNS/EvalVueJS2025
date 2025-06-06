@@ -75,12 +75,11 @@ const sauvegarderFacture = () => {
   if (index !== -1) {
     factures[index] = { ...facture.value }
     saveFactures(factures)
-    alert('Facture sauvegardée !')
-    $router.push('/facture')
+    $router.push('/')
   }
 }
 
 const annuler = () => {
-  $router.push('/facture')
+  $router.push('/')
 }
 </script>
