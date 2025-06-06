@@ -22,7 +22,7 @@
               >
             </li>
             <li class="nav-item">
-              <RouterLink activeClass="active" to="/profile" class="nav-link"
+              <RouterLink activeClass="active" to="/clients" class="nav-link"
                 ><i class="fa-solid fa-person me-2"></i>Clients</RouterLink
               >
             </li>
